@@ -74,9 +74,11 @@ session_start();
 	if ($AddOK)
 	{
 		$id = $meeting->getMeetingId($subj, $user);
-		$_SESSION['MEET_ID'] = $id;
+		$_SESSION['MEET_ID'] 	= $id;
+		$_SESSION['MEET_H'] 	= $hours;
+		$_SESSION['MEET_MN']	= $mn;
 		
-		//header("Location: ../index.php?uc=home");
+		header("Location: ../index.php?uc=etape2");
 	} // Fin if AddOK
 
 
