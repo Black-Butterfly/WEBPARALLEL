@@ -1,6 +1,6 @@
 <?php
 /**
-*	@file   register.php
+*	@file   user.php
 * 
 *	@author Mariana ANDUJAR
 * 
@@ -45,8 +45,8 @@ session_start();
 		$member = new MMembers();
 		$log = $member->getLoginById($id);
 		
-		echo $mailoK;
 		if($mailoK == 1){
+		
 			$member->update_User($id, $name, $surname, $tel, $mail);
 			$valid = true;
 		}else{
@@ -55,7 +55,7 @@ session_start();
 		
 		if ($valid)
 		{
-			session_start();
+			//session_start();
 			$USR = $member->getUser($log[0]);
 	
 			$_SESSION["USER_ID"] 	= htmlentities($USR['0']);

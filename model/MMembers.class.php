@@ -105,12 +105,12 @@ class MMembers{
 			// preparer la requete
 			$req = "UPDATE USER SET NAME = ?, SURNAME = ?, 
 					TEL = ?, EMAIL = ? 
-					WHERE USER_ID = ?;";
+					WHERE ID_USER = ?;";
 			$reqprep = $cnx->prepare($req);
 			$reqprep->bindParam(1, $name, 		PDO::PARAM_STR);
 			$reqprep->bindParam(2, $surname, 	PDO::PARAM_STR);
-			$reqprep->bindParam(3, $$tel, 		PDO::PARAM_STR);
-			$reqprep->bindParam(4, $$email, 	PDO::PARAM_STR);
+			$reqprep->bindParam(3, $tel, 		PDO::PARAM_STR);
+			$reqprep->bindParam(4, $email, 		PDO::PARAM_STR);
 			$reqprep->bindParam(5, $id, 		PDO::PARAM_INT);
 			$reqprep->execute();
 				
@@ -167,13 +167,13 @@ class MMembers{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
-			$req = "SELECT LOGIN, SALT FROM USER WHERE USER_ID = '$id';";
+			$req = "SELECT LOGIN, SALT FROM USER WHERE ID_USER = ?;";
 			$reqprep = $cnx->prepare($req);
-			$reqprep->bindParam(1, $id, 	PDO::PARAM_STR);
-			$reqprep->execute(array($id));
+			$reqprep->bindParam(1, $id, PDO::PARAM_INT);
+			$reqprep->execute();
 			$result = $reqprep->fetch();
 			
 			// deconnexion
