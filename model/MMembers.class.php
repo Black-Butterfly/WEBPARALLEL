@@ -168,13 +168,13 @@ class MMembers{
 		try{
 			// connexion
 			$cnx = new db();
-			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
 			$req = "SELECT LOGIN, SALT FROM USER WHERE ID_USER = ?;";
 			$reqprep = $cnx->prepare($req);
-			$reqprep->bindParam(1, $id, PDO::PARAM_INT);
-			$reqprep->execute();
+			$reqprep->bindParam(1, $id, 	PDO::PARAM_STR);
+			$reqprep->execute(array($id));
 			$result = $reqprep->fetch();
 			
 			// deconnexion
