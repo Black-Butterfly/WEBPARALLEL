@@ -162,4 +162,25 @@ class MMembers{
 			die("exception : ". $e->getMessage());
 		}
 	}
+	
+	public function getLoginById($id){
+		try{
+			// connexion
+			$cnx = new db();
+			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT LOGIN, SALT FROM USER WHERE USER_ID = '$id';";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->bindParam(1, $id, 	PDO::PARAM_STR);
+			$reqprep->execute(array($id));
+			$result = $reqprep->fetch();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}	
+		return $result;
+	}
 }
