@@ -7,13 +7,18 @@
 		return array($h, $m);
 	}
 	
-	echo '<form method="post" action="control/etape2.php" autocomplete="off">
-		<br />
-		<label for="date">*Date : </label>
-		<input type="date" name="date" />
-		<br />
-		Choisissez un créneaux horraire : 
-		<br />
+	echo '	<form method="post" action="control/etape2.php" autocomplete="off">
+			<h1>
+				<div class="label label-primary"><label for="date">*Date : </label></div>
+			</h1>
+			<input type="date" name="date" />
+			<br />
+			<div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Choisissez un créneau horaire :</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
 	';
 	
 	$steph 	= addslashes($_SESSION['MEET_H']);
@@ -39,10 +44,24 @@
 		$timebegin = $time[0].":".$time[1];
 		$timeend = $time2[0].":".$time2[1];
 		
-		echo '<input type="checkbox" name="choice'.$timebegin.'" value="'
-			.$timebegin.'" />'.$timebegin." - ".$timeend;
+		echo '
+			<div class="col-sm-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">'.$timebegin." - "
+						.$timeend.'</h3>
+					</div>
+					<div class="panel-body-checkbox">
+						<input type="checkbox" name="choice'.$timebegin.'
+						" value="'.$timebegin.'" />
+					</div>
+				</div>
+			</div>'
+			;
 	}
-		
+	echo '		</div>
+			</div>
+          </div>';	
 	
 	echo '	<br />
 			<input type="radio" name="new" value="0">Ajouter une autre date

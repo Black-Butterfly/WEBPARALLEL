@@ -1945,7 +1945,7 @@ pre code
 	}
 	.col-sm-2
 	{
-		width:16.66666667%
+		width:10%
 	}
 	.col-sm-1
 	{
@@ -4880,6 +4880,10 @@ a.list-group-item-danger.active,a.list-group-item-danger.active:focus,a.list-gro
 .panel-body
 {
 	padding:15px
+}
+.panel-body-checkbox
+{
+	padding-left:60px
 }
 .panel-heading
 {
