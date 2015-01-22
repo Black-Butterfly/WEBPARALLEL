@@ -85,18 +85,17 @@ class MMembers{
 		return ($reqprep->rowCount() == '1') ? TRUE : FALSE;
 	}
 	
-	public function update_User($login, $name, $surname, $tel, $email, $passwd){
+	public function update_User($id, $name, $surname, $tel, $email){
 		try{
 				// connexion
-				$cnx = new PDO("mysql:host=$host;dbname=$db_name", $db_user, $db_pwd);
-				$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$cnx = new db();
 				
 				// preparer la requete
 				$req = "UPDATE USER SET NAME = '$name', SURNAME = '$surname', 
-						TEL = '$tel', EMAIL = '$email', PASSWD = '$passwd' 
-						WHERE LOGIN ='$login';";
+						TEL = '$tel', EMAIL = '$email' 
+						WHERE USER_ID ='$id';";
 				$reqprep = $cnx->prepare($req);
-				$reqprep->execute(array($login));
+				$reqprep->execute(array($id));
 				
 				// deconnexion
 				$cnx = null;
@@ -126,5 +125,22 @@ class MMembers{
 			die("exception : ". $e->getMessage());
 		}	
 		return $result;
+	}
+	
+	public function updateMdp($id,$mdp){
+		try{
+				// connexion
+				$cnx = new db();
+				
+				// preparer la requete
+				$req = "UPDATE USER SET PASSWD = '$mdp'	WHERE USER_ID ='$id';";
+				$reqprep = $cnx->prepare($req);
+				$reqprep->execute(array($id));
+				
+				// deconnexion
+				$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}
 	}
 }

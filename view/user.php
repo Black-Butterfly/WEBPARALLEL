@@ -1,28 +1,38 @@
-<div>
-	<h3>
-		<?php echo $log; ?>
-	</h3>
+<?php
 	
-	<form method="post" action="../control/user.php&action=modifier">
+?>
+
+<div>
+	<h2>
+		Informations sur votre compte :
+	</h2>
+	
+	<form method="post" autocomplete="off" action="control/user.php">
 		<label for="name">Nom : </label>
-		<?php echo $name; ?>
+		<input type="text" name="name"  placeholder="<?php echo $_SESSION['NOM']; ?>"/>
 		</br>
-		<label for="surname">PréNom : </label>
-		<?php echo $surname; ?>
+		<label for="surname">Prénom : </label>
+		<input type="text" name="surname"  placeholder="<?php echo $_SESSION['PRENOM']; ?>"/>
 		</br>
-		<label for="email">Adresse e-mail : </label>
-		<input type="text" name="mail"><?php echo $mail; ?></input>
+		<label for="email">*Adresse e-mail : </label>
+		<input type="text" name="mail" placeholder="<?php echo $_SESSION['EMAIL']; ?>" />
 		</br>
-		<label for="tel">Numéro de telephone :</label>
-		<input type="text" name="num" ><?php echo $num; ?></input>
+		<label for="tel">*Numéro de telephone :</label>
+		<input type="text" name="num" placeholder="<?php echo $_SESSION['TEL']; ?>"/>
 		</br>
-		<label for="paswd">Mot de passe : </label>
-		<input type="text" name="password" ><?php echo $mdp ?></input>
+		<button name="valid" type="submit" class="btn-success">Valider Modification</button>
+	</form>
+	<form method="post" autocomplete="off" action="control/user.php">
+		<label for="paswdOld">*Mot de passe : </label>
+		<input type="text" name="passwordOld" >
 		</br>
-		<label for="paswd2">Confirmation du mot de passe : </label>
+		<label for="paswd">*Mot de passe : </label>
+		<input type="text" name="password" >
+		</br>
+		<label for="paswd2">*Confirmation du mot de passe : </label>
 		<input type="text" name="passwordValid" >
-		</br>
-		<button name="Add" type="submit" class="btn-success">Modifier</button>
+		</br>	
+		<button name="validMdp" type="submit" class="btn-success">Valider Modification</button>
 	</form>
 
 </div>
