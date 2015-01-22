@@ -151,9 +151,10 @@ class MMembers{
 				$cnx = new db();
 				
 				// preparer la requete
-				$req = "UPDATE USER SET PASSWD = '$mdp'	WHERE USER_ID ='$id';";
+				$req = "UPDATE USER SET PASSWD = ?	WHERE ID_USER = ?;";
 				$reqprep = $cnx->prepare($req);
-				$reqprep->bindParam(1, $id, 	PDO::PARAM_STR);
+				$reqprep->bindParam(2, $id, 	PDO::PARAM_INT);
+				$reqprep->bindParam(1, $mdp, 	PDO::PARAM_STR);
 				$reqprep->execute();
 				
 				// deconnexion
