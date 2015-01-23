@@ -52,8 +52,8 @@
 						.$timeend.'</h3>
 					</div>
 					<div class="panel-body-checkbox">
-						<input type="checkbox" name="choice'.$timebegin.'
-						" value="'.$timebegin.'" />
+						<input type="checkbox" name="choice[]" value="
+						'.$timebegin.'" />
 					</div>
 				</div>
 			</div>'
@@ -64,9 +64,9 @@
           </div>';	
 	
 	echo '	<br />
-			<input type="radio" name="new" value="0">Ajouter une autre date
+			Ajouter une autre date <input type="radio" name="new" value="0">
 			<br />
-			<input type="radio" name="new" value="1" checked>Finaliser
+			Finaliser <input type="radio" name="new" value="1" checked>
 			<br />
 			<input type="submit" name="AddDay" value="Valider"> 
 			<br />

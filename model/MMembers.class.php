@@ -56,19 +56,19 @@ class MMembers{
 	public function Get_Info($login)
 	{
 		try{
-				// connexion
-				$cnx = new db();
-				$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT PASSWD, SALT FROM user WHERE LOGIN = ?;";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->bindParam(1, $login, 	PDO::PARAM_STR);
+			$reqprep->execute();
+			$result = $reqprep->fetch();
 				
-				// preparer la requete
-				$req = "SELECT PASSWD, SALT FROM user WHERE LOGIN = ?;";
-				$reqprep = $cnx->prepare($req);
-				$reqprep->bindParam(1, $login, 	PDO::PARAM_STR);
-				$reqprep->execute();
-				$result = $reqprep->fetch();
-				
-				// deconnexion
-				$cnx = null;
+			// deconnexion
+			$cnx = null;
 		}catch (PDOException $e){
 			die("exception");
 		}
@@ -81,7 +81,7 @@ class MMembers{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
 			$req = "SELECT LOGIN FROM USER WHERE LOGIN = ?;";
@@ -92,7 +92,7 @@ class MMembers{
 			// deconnexion
 			$cnx = null;
 		}catch (PDOException $e){
-			die("exception : ". $e->getMessage());
+			die("exception");
 		}	
 		return ($reqprep->rowCount() == '1') ? TRUE : FALSE;
 	}
@@ -127,7 +127,7 @@ class MMembers{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
 			$req = "SELECT ID_USER, NAME, SURNAME, TEL, EMAIL FROM USER 
@@ -140,7 +140,7 @@ class MMembers{
 			// deconnexion
 			$cnx = null;
 		}catch (PDOException $e){
-			die("exception : ". $e->getMessage());
+			die("exception");
 		}	
 		return $result;
 	}
@@ -168,7 +168,7 @@ class MMembers{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
 			$req = "SELECT LOGIN, SALT FROM USER WHERE ID_USER = ?;";
@@ -180,7 +180,7 @@ class MMembers{
 			// deconnexion
 			$cnx = null;
 		}catch (PDOException $e){
-			die("exception : ". $e->getMessage());
+			die("exception");
 		}	
 		return $result;
 	}
