@@ -57,9 +57,22 @@
 						$_SESSION['MEET_ID'] 	= null;
 						$_SESSION['MEET_H'] 	= null;
 						$_SESSION['MEET_MN'] 	= null;
-						var_dump($_SESSION);
-						// redirection sur home
-						header("Location: ../index.php?uc=home");
+						
+						
+						
+						// Création de l'url
+						$iduser = addslashes($_SESSION['USER_ID']);
+						
+						$url = 
+						"http://localhost/finalreunion2/index.php?uc=meeting";
+							
+						$info = $meeting->createURL($idmeet, $iduser);
+						$tobuild = array($info[0], $info[1],$info[2]);
+						
+						$final = $url .'&' . http_build_query($tobuild);
+						
+						// redirection sur le meeting
+						header("Location: " . $final);
 					}
 				}// date already exist
 				else{

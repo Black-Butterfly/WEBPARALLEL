@@ -37,6 +37,9 @@
 		case "etape2" :
 			include(VIEW_DIR ."etape2.php");
 			break;
+		case "meeting" :
+			include(VIEW_DIR ."view_meeting.php");
+			break;
 		default:
 			include(VIEW_DIR . "home.html");
 			break;

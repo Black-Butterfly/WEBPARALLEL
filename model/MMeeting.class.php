@@ -112,7 +112,7 @@ class MMeeting{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
 			$req = "SELECT ID_MEETING FROM MEETING WHERE SUBJECT = ? AND ID_USER
@@ -136,7 +136,7 @@ class MMeeting{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
 			$req = "SELECT ID_DATE FROM DATE WHERE DDAY = ? AND ID_MEETING
@@ -154,41 +154,21 @@ class MMeeting{
 		}	
 		return $result;
 	}
-	// TODO
-	/*
-	public function update_User($login, $name, $surname, $tel, $email, $passwd){
-		try{
-				// connexion
-				$cnx = new PDO("mysql:host=$host;dbname=$db_name", $db_user, $db_pwd);
-				$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				
-				// preparer la requete
-				$req = "UPDATE USER SET NAME = '$name', SURNAME = '$surname', 
-						TEL = '$tel', EMAIL = '$email', PASSWD = '$passwd' 
-						WHERE LOGIN ='$login';";
-				$reqprep = $cnx->prepare($req);
-				$reqprep->execute(array($login));
-				
-				// deconnexion
-				$cnx = null;
-		}catch (PDOException $e){
-			die("exception : ". $e->getMessage());
-		}
-		
-	}
 	
-	public function getUser($login)
+	public function createURL($idmeet, $iduser)
 	{
 		try{
 			// connexion
 			$cnx = new db();
-			//$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
-			$req = "SELECT ID_USER, NAME, SURNAME, TEL, EMAIL FROM USER 
-				WHERE LOGIN = ?;";
+			$req = "SELECT SUBJECT, NAME, SURNAME FROM MEETING, USER WHERE 
+				ID_MEETING = ? AND USER.ID_USER = ?;";
 			$reqprep = $cnx->prepare($req);
-			$reqprep->execute(array($login));
+			$reqprep->bindParam(1, $idmeet,	 	PDO::PARAM_INT);
+			$reqprep->bindParam(2, $iduser,		PDO::PARAM_INT);
+			$reqprep->execute();
 			$result = $reqprep->fetch();
 			
 			// deconnexion
@@ -197,5 +177,109 @@ class MMeeting{
 			die("exception : ". $e->getMessage());
 		}	
 		return $result;
+	}
+	
+	/*
+		PROBLEME AVEC LA FONCTION : RENVOI UNE INFINITER DE ROW !! 
+	*/
+	/*public function getMeetingToShow($subject, $name, $surname){
+		try{
+				// connexion
+				$cnx = new db();
+				$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				
+				// preparer la requete
+				$req = "SELECT * FROM MEETING, DATE, HOURS WHERE 
+				MEETING.ID_MEETING = ( SELECT ID_MEETING FROM MEETING WHERE 
+				SUBJECT = ? AND MEETING.ID_USER = (SELECT ID_USER FROM USER 
+				WHERE NAME = ? AND SURNAME = ?));";
+				$reqprep = $cnx->prepare($req);
+				$reqprep->bindParam(1, $subject,	 PDO::PARAM_STR);
+				$reqprep->bindParam(2, $name,		PDO::PARAM_STR);
+				$reqprep->bindParam(3, $surname,	PDO::PARAM_STR);
+				$reqprep->execute();
+				$result = $reqprep->fetch();
+				
+				
+				// deconnexion
+				$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}
+		
+		return $result;
+		
 	}*/
+	
+	public function getMeetingToShow($subject, $name, $surname){
+		try{
+				// connexion
+				$cnx = new db();
+				$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				
+				// preparer la requete
+				$req = "SELECT * FROM MEETING WHERE SUBJECT = ? AND 
+				MEETING.ID_USER = (SELECT ID_USER FROM USER 
+				WHERE NAME = ? AND SURNAME = ?);";
+				$reqprep = $cnx->prepare($req);
+				$reqprep->bindParam(1, $subject,	PDO::PARAM_STR);
+				$reqprep->bindParam(2, $name,		PDO::PARAM_STR);
+				$reqprep->bindParam(3, $surname,	PDO::PARAM_STR);
+				$reqprep->execute();
+				$result = $reqprep->fetch();
+				
+				
+				// deconnexion
+				$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}
+		
+		return $result;
+	}
+	
+
+	public function getMeetingDate($idmeet)
+	{
+		try{
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT * FROM DATE WHERE ID_MEETING = ? ORDER BY DDAY ASC;";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->bindParam(1, $idmeet,	PDO::PARAM_INT);
+			$reqprep->execute();
+			$result = $reqprep->fetchAll();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}	
+		return $result;
+	}
+	
+	public function getDateHours($iddate)
+	{
+		try{
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT * FROM HOURS WHERE ID_DATE = ?;";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->bindParam(1, $iddate,	PDO::PARAM_INT);
+			$reqprep->execute();
+			$result = $reqprep->fetchAll();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}	
+		return $result;
+	}
 }
