@@ -1,39 +1,67 @@
 <?php 
+
+/**
+*	@file   view_meeting.php
+* 
+*	@author Black Butterfly
+* 
+*	@date   23/01/2015 
+* 
+*
+*	@brief  Permet de récup n'importe quel meeting via l'url. 
+*
+**/
 	
+	// On vas avoir besoin des connexions à la base
 	include ("model/MMeeting.class.php");
 	
+	// Sécurisation des valeurs via url
 	$subject 	= addslashes($_GET[0]);
 	$name 		= addslashes($_GET[1]);
 	$surname 	= addslashes($_GET[2]);
 	
+	
 	$meeting = new MMeeting();
+	
+	// Test si le meeting existe
 	$result = $meeting->getMeetingToShow($subject, $name, $surname);
 	
+	// Si le meeting n'existe pas. On est redirigé
 	if($result == false){
-		echo "Ya rien donc rediriger";
+		header("Location: ../index.php?uc=home");
 	}
 	
 	
+	// Affiche de l'année sélectionné
 	function yearView($date){
 		echo date("Y", strtotime($date)).'<br />';
 	}
 	
+	// Affiche le moi de l'année 
 	function monthView($date){
+		// Attribut F permet d'avoir le moi en textuel
 		echo date("F", strtotime($date)).'<br />';
 	}
 	
+	// Affiche la date (Monday 01)
 	function dayView($date){
+		// strftime permet d'obtenir le format Monday etc ...
 		echo strftime("%A", strtotime($date)).' '.date("d", strtotime($date)).'
 		<br />';
 	}
 	
+	// Génère les heures de façons à ce qu'elles puissent être séléctionné.
+	// Les heures reçues sont toujours en rapport avec la date
 	function generateHours($hours, $dure, $idday){
 		foreach ($hours as $time){
 			
+			// Reconstruction des temps de départ, fin et de la valeur à envoyer
 			$timebegin 	= $time[1].':'.$time[2];
 			$timeend 	= ($time[1]+$dure[4]).':'.($time[2]+$dure[5]);
+			// Pas sécure mais je ne vois pas trop comment faire autrement :/
 			$value 		= $dure[0].'&'.$idday.'&'.$time[0];
 		
+			// Génération du code html pour les heures
 			echo '
 				<div class="col-sm-2">
 					<div class="panel panel-default">
@@ -52,7 +80,19 @@
 	}
 	
 	
+	/* 
+	*
+	*
+	*	GENERATION DU CODE HTML DE LA PAGE !!
+	*
+	*
+	*/
+	
+	
 	// Affiche le sujet, la description et le lieux : 
+	// $result[1] --> Subject
+	// $result[2] --> Description ( peut être null .. )
+	// $result[3] --> Lieux 
 	echo '<h3>Meeting : '.$result[1].'</h3>
 			<br />
 			Description : '.$result[2].'
@@ -61,7 +101,7 @@
 			<br />
 			<form action="TODO" autocomplete="off" methode="POST">';
 			
-	// TRICKY PART ! ! !
+			
 	
 	// Recupération de toutes les dates associé au meeting
 	$date = $meeting->getMeetingDate($result[0]);
@@ -79,36 +119,56 @@
 	monthView($date[0][1]);
 	
 	
-	// Génération des jours + heures + checkbox
+	/*
+	*
+	* Code HTML générer en boucle
+	*
+	*/
+	
 	foreach($date as $day){
+		// Récupération des heures via la date
 		$hours = $meeting->getDateHours($day[0]);
 		
 		$year2  = date("Y", strtotime($day[1]));
 		$month2 = date("m", strtotime($day[1]));
 
+		// Pour être certain que l'année séléctionné n'as pas été modifier entre
+		// temps
 		if ($year1 != $year2){
 			$year1 = $year2;
 			bigView($day[1]);
 		} // Changement d'année
 		
+		// Pareil que précedemment mais pour les mois
 		if ($month1 != $month2){
 			$month1 = $month2;
 			monthView($day[1]);
 		} // Changement de moi
 		
+		// Affichage du jour 
 		dayView($day[1]);
 		
+		// Affichage de toutes les heures relatif au jour
 		generateHours($hours, $result, $day[0]);
-	}
+	} 
 	
+	
+	// Si la personne est connécté, son nom sera envoyé d'office
 	if(isset($_SESSION['PRENOM'])){
-		$surname = addslashes($_SESSION['PRENOM']);
-		echo '<input type="text" name="owner" value="'.$surname.'" disabled />';
+		// récuperation de ses informations 
+		$surname 	= addslashes($_SESSION['PRENOM']);
+		$name 		= addslashes($_SESSION['NOM']);
+		
+		// Zone de saisie
+		echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
+			disabled />';
 	}
 	else{
+		// Zone de saisi en temps que visiteur.
 		echo '<input type="text" name="owner" />';
 	}
 	
+	// Fin du document
 	echo '
 		<button name="participate" type="submit" class="btn-success">Participer
 		</button>
