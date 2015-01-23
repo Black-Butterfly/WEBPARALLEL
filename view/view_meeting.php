@@ -99,7 +99,8 @@
 			<br />
 			Lieux : '.$result[3].'
 			<br />
-			<form action="TODO" autocomplete="off" methode="POST">';
+			<form action="control/participate.php" autocomplete="off" 
+			methode="POST">';
 			
 			
 	
