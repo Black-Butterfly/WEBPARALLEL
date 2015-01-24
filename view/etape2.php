@@ -8,18 +8,17 @@
 	}
 	
 	echo '	<form method="post" action="control/etape2.php" autocomplete="off">
-			<h1>
+			<h3>
 				<div class="label label-primary"><label for="date">*Date : 
-				</label></div>
-			</h1>
-			<input type="date" name="date" />Format : (YYYY-MM-DD)
+				</label></div><input type="date" name="date" />
+			</h3>
 			<br />
 			<div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title">Choisissez un créneau horaire :</h3>
-			</div>
-			<div class="panel-body">
-				<div class="row">
+				<div class="panel-heading">
+				  <h3 class="panel-title">Choisissez un créneau horaire :</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
 	';
 	
 	$steph 	= addslashes($_SESSION['MEET_H']);
@@ -62,16 +61,29 @@
 	}
 	echo '		</div>
 			</div>
-          </div>';	
+          </div>';
 	
-	echo '	<br />
-			Ajouter une autre date <input type="radio" name="new" value="0">
-			<br />
-			Finaliser <input type="radio" name="new" value="1" checked>
-			<br />
-			<input type="submit" name="AddDay" value="Valider"> 
-			<br />
+	echo '	
+				<div class="row">
+					<div class="col-md-9">
+						<table class="table">
+						  <tbody>
+							  <tr>
+								<td>Ajouter une autre date <input type="radio" 
+										name="new" value="0"></td>
+							  </tr>
+							  <tr>
+								<td>Finaliser <input type="radio" name="new" 
+										value="1" checked></td>
+							  </tr>
+							  <tr>
+								<td><input type="submit" class="btn btn-sm 
+								btn-success" name="AddDay" value="Valider"></td>
+							  </tr>
+						  </tbody>
+						</table>
+					</div>
+				</div>
 			</form>';
-	
 ?>
 
