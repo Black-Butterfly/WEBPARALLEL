@@ -11,6 +11,7 @@
 			<h3>
 				<div class="label label-primary"><label for="date">*Date : 
 				</label></div><input type="date" name="date" />
+				Format : (YYYY-MM-DD)
 			</h3>
 			<br />
 			<div class="panel panel-info">

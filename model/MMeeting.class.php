@@ -307,7 +307,31 @@ class MMeeting{
 		}	
     }
 	
-	public function addMeetingByIdUser($uid){
+	public function giveAllMeetingWithUser()
+	{
+		try{
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT SUBJECT, NAME, SURNAME, MEETING.ID_USER FROM MEETING,
+			USER WHERE MEETING.ID_USER = USER.ID_USER 
+			ORDER BY MEETING.ID_USER;";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->execute();
+			$result = $reqprep->fetchAll();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}	
+		return $result;
+	}
+	
+	
+	/*public function addMeetingByIdUser($uid){
 		try{
 			// connexion
 			$cnx = new db();
@@ -348,5 +372,5 @@ class MMeeting{
 			die("exception : ". $e->getMessage());
 		}	
 		return $result;
-	}
+	}*/
 }
