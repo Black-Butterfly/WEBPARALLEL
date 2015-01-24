@@ -105,7 +105,8 @@
 							.$timeend.'</h3>
 						</div>';
 			// Si c'est le meeting de l'utilisateur
-			if($idmeeting == $_SESSION['USER_ID']){
+			if( isset($_SESSION['USER_ID']) && 
+				$idmeeting == $_SESSION['USER_ID']){
 				echo '</div></div>';
 				afficheFolow($followers);
 			}else{			
