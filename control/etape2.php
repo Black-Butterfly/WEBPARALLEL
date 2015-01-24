@@ -5,9 +5,8 @@
 * 
 *	@author Black Butterfly
 * 
-*	@date   21/01/2015 
+*	@date   22/01/2015 
 * 
-*
 *	@brief  Ici se trouve le contrôleur de l'ajout des jours et heures dans la
 *			base.
 *
@@ -49,26 +48,37 @@
 							$idmeet,$iddate[0]);
 					}
 					
+					// If user continue to add
 					if($_POST['new'] == 0){
 						header("Location: ../index.php?uc=etape2");
 					}//If user select to continue to add
 					else{
-						// Réinitialisa les variable relative au meeting a null
+						// Réinitialise les variables relative au meeting a null
 						$_SESSION['MEET_ID'] 	= null;
 						$_SESSION['MEET_H'] 	= null;
 						$_SESSION['MEET_MN'] 	= null;
 						
 						
+						/*
+						*
+						* Création de l'url
+						*
+						*/
 						
-						// Création de l'url
+						
 						$iduser = addslashes($_SESSION['USER_ID']);
 						
+						// Pour être certain que les dossiers utilisé soit tjs 
+						// bon dans l'url
 						$geturl = $_SERVER['REQUEST_URI'];
 						
+						// Récupération du nom du dossié
 						$explode = explode('/', $geturl);
 						
+						// On part sur localhost
 						$url = "http://localhost/";
 						
+						// On rajoute tous ce qu'il y a avant control
 						foreach($explode as $path){
 							if ($path == 'control'){
 								break;
@@ -76,30 +86,42 @@
 							$url = $url.$path;
 						}
 						
+						// On rajoute le fait que l'on part de l'index
 						$url = $url."/index.php?";
 							
+						// ENFIN !! 
+						
+						// Récupération des informations dont nous avons besoin
+						// 0 --> Subject, 1 --> Name, 2-->Surname
 						$info = $meeting->createURL($idmeet, $iduser);
+						
+						// On fait en sorte de n'avoir que les valeurs
 						$tobuild = array($info[0], $info[1],$info[2]);
 						
+						// FINALEMENT on build l'url
 						$final = $url . 'uc=meeting' .'&' . 
 							http_build_query($tobuild);
 						
-						var_dump($final);
 						// redirection sur le meeting
 						header("Location: " . $final);
 					}
 				}// date already exist
 				else{
-					echo "La date spécifié existe déjà pour ce meeting";
+					echo "La date spécifié existe déjà pour ce meeting
+					<a href=\"../index.php?uc=etape2\"> Revenir à la page 
+					précédente </a>";
 				}
 			}
 			else{
-				echo "La date selectionné n'est pas valide.";
+				echo "La date selectionné n'est pas valide. 
+				<a href=\"../index.php?uc=etape2\"> Revenir à la page précédente 
+				</a>";
 			}
 		
 		}// if date select with at least one hour
 		else{
-			echo "date hour incorrect";
+			echo "date hour incorrect <a href=\"../index.php?uc=etape2\"> 
+			Revenir à la page précédente </a>";
 		}
 	}// if isset POST AddDay
 	else{
