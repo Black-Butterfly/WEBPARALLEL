@@ -2158,6 +2158,12 @@ pre code
 	{
 		width:11.66666667%
 	}
+	.col-md-42
+	{
+		width:16.66666667%;
+		height:15%;
+		display:inline-block;
+	}
 	.col-md-1
 	{
 		width:8.33333333%

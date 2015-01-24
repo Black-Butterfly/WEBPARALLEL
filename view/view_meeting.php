@@ -48,10 +48,12 @@
 	}
 	
 	// Affiche les personnes participant à la réunion
-	function afficheFolow($followers){
+	function afficheFollow($followers){
 		foreach($followers as $own){
-			echo 'Pouvant participer : '.$own.'<br />';
+			echo '<div class="panel-body-checkbox2">Pouvant participer : '.$own.
+			'</div>';
 		}
+		echo '</div></div>';
 	}
 	
 	// Affiche de l'année sélectionné
@@ -97,26 +99,35 @@
 			$followers = nameFollowers($follow, $idday, $time[0]);
 		
 			// Génération du code html pour les heures
-			echo '
+			
+			// Si c'est le meeting de l'utilisateur
+			if( isset($_SESSION['USER_ID']) && 
+				$idmeeting == $_SESSION['USER_ID']){
+				echo '
+				<div class="col-md-42">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 style="text-align: center;" class="panel-title">'.$timebegin." - "
+							.$timeend.'</h3>
+						</div>';
+				afficheFollow($followers);
+				echo '</div></div>';
+			}else{			
+				echo '
 				<div class="col-md-2">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 style="text-align: center;" class="panel-title">'.$timebegin." - "
 							.$timeend.'</h3>
 						</div>';
-			// Si c'est le meeting de l'utilisateur
-			if( isset($_SESSION['USER_ID']) && 
-				$idmeeting == $_SESSION['USER_ID']){
-				echo '</div></div>';
-				afficheFolow($followers);
-			}else{			
 				echo '<div class="panel-body-checkbox2">
 							 <input type="checkbox" name="choice[]" 
 								value="'.$value.'" />
 						</div>
 					</div>
+				</div>
 				</div>';
-				afficheFolow($followers);
+				afficheFollow($followers);
 			}
 		}
 		echo '		</tbody>
@@ -168,7 +179,7 @@
 	
 	// NORMALEMENT ON NE TOMBE JAMAIS DANS CE CAS MAIS BON ...
 	if (sizeof($date) == 0){
-		echo 'Aucune date est heures n\'est disponible pour ce meeting';
+		echo 'Aucune date et heure n\'est disponible pour ce meeting';
 		exit();
 	}
 	
@@ -226,8 +237,8 @@
 		  if($result[6] == $_SESSION['USER_ID']){
 			echo '</form>
 				 <form action="TOPDF" autocomplete="off" method="POST">
-				 <input type="hidden" value="'.$result[0].'">
-				 <button name="participate" type="submit" 
+				 <input type="hidden" value="'.$result[0].'"><br/>
+				 <button name="participate" type="submit"
 				 class="btn btn-success"> Export to pdf</button> ';
 			
 		  }
