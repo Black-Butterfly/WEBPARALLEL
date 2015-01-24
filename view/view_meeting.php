@@ -203,6 +203,8 @@
 		   echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
 			disabled />';
 		  }
+	}else{
+		 echo '<input type="text" name="owner" placeholder="NOM PRENOM"/>';
 	}
 	
 	// Fin du document
