@@ -43,7 +43,7 @@
 	// Affiche le mois de l'année 
 	function monthView($date){
 		// Attribut F permet d'avoir le moi en textuel
-		echo '	<div style="text-align: center;" class="col2-md-8">'.
+		echo '	<div style="text-align: center;" class="col3-md-8">'.
 					date("F", strtotime($date)).
 				'</div>';
 	}
@@ -51,7 +51,7 @@
 	// Affiche la date (Monday 01)
 	function dayView($date){
 		// strftime permet d'obtenir le format Monday etc ...
-		echo '	<div style="text-align: center;" class="col2-md-8">'.
+		echo '	<div style="text-align: center;" class="col4-md-8">'.
 					strftime("%A", strtotime($date)).' '
 					.date("d", strtotime($date)).
 				'</div>';
@@ -60,7 +60,7 @@
 	// Génère les heures de façons à ce qu'elles puissent être séléctionné.
 	// Les heures reçues sont toujours en rapport avec la date
 	function generateHours($hours, $dure, $idday){
-		echo '<div class="col2-md-12">
+		echo '<div class="col5-md-12">
 				<table class="table">
 					<tbody>';
 		

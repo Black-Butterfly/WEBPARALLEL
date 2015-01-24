@@ -12,11 +12,34 @@ h4 {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: #eee;
-  background-color: rgba(86,61,124,.15);
+  background-color: rgba(51,102,102,.40);
   border: 1px solid #ddd;
   border: 1px solid rgba(86,61,124,.2);
 }
-
+[class*="col3-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(51,102,153,.40);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+[class*="col4-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(51,102,204,.40);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+[class*="col5-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(51,102,255,.40);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
 hr {
   margin-top: 40px;
   margin-bottom: 40px;
