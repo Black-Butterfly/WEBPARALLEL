@@ -34,25 +34,36 @@
 	
 	// Affiche de l'année sélectionné
 	function yearView($date){
-		echo date("Y", strtotime($date)).'<br />';
+		echo '<div class="rowmeetings">
+				<div style="text-align: center;" class="col2-md-8">'
+					.date("Y", strtotime($date))
+				.'</div>';
 	}
 	
-	// Affiche le moi de l'année 
+	// Affiche le mois de l'année 
 	function monthView($date){
 		// Attribut F permet d'avoir le moi en textuel
-		echo date("F", strtotime($date)).'<br />';
+		echo '	<div style="text-align: center;" class="col2-md-8">'.
+					date("F", strtotime($date)).
+				'</div>';
 	}
 	
 	// Affiche la date (Monday 01)
 	function dayView($date){
 		// strftime permet d'obtenir le format Monday etc ...
-		echo strftime("%A", strtotime($date)).' '.date("d", strtotime($date)).'
-		<br />';
+		echo '	<div style="text-align: center;" class="col2-md-8">'.
+					strftime("%A", strtotime($date)).' '
+					.date("d", strtotime($date)).
+				'</div>';
 	}
 	
 	// Génère les heures de façons à ce qu'elles puissent être séléctionné.
 	// Les heures reçues sont toujours en rapport avec la date
 	function generateHours($hours, $dure, $idday){
+		echo '<div class="col2-md-12">
+				<table class="table">
+					<tbody>';
+		
 		foreach ($hours as $time){
 			
 			// Reconstruction des temps de départ, fin et de la valeur à envoyer
@@ -63,20 +74,22 @@
 		
 			// Génération du code html pour les heures
 			echo '
-				<div class="col-sm-2">
+				<div class="col-md-2">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">'.$timebegin." - "
+							<h3 style="text-align: center;" class="panel-title">'.$timebegin." - "
 							.$timeend.'</h3>
 						</div>
-						<div class="panel-body-checkbox">
-							<input type="checkbox" name="choice[]" 
-							value="'.$value.'" />
+						<div class="panel-body-checkbox2">
+							 <input type="checkbox" name="choice[]" 
+								value="'.$value.'" />
 						</div>
 					</div>
-				</div>'
-				;
+				</div>';
 		}
+		echo '		</tbody>
+				</table>
+			</div>';
 	}
 	
 	
@@ -87,20 +100,35 @@
 	*
 	*
 	*/
-	
-	
+
 	// Affiche le sujet, la description et le lieux : 
 	// $result[1] --> Subject
 	// $result[2] --> Description ( peut être null .. )
 	// $result[3] --> Lieux 
-	echo '<h3>Meeting : '.$result[1].'</h3>
-			<br />
-			Description : '.$result[2].'
-			<br />
-			Lieux : '.$result[3].'
-			<br />
-			<form action="control/participate.php" autocomplete="off" 
-			method="post">';
+	
+	echo '<div class="row">
+			<div class="col-sm-11">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Meeting : '.$result[1].'</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-9">
+								<table class="table">
+									<tbody>
+									  <tr>
+										<td>Description : '.$result[2].'</td>
+									  </tr>
+									  <tr>
+										<td>Lieux : '.$result[3].'</td>
+									  </tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+		<form action="control/participate.php" autocomplete="off" method="POST">';
 			
 			
 	
@@ -156,29 +184,25 @@
 	
 	// Si la personne est connécté, son nom sera envoyé d'office
 	if(isset($_SESSION['PRENOM'])){
-		// On vérifie si la personne qui regarde est le créateur.
-		if($result[6] == $_SESSION['USER_ID']){
-			
-		}
-		else{
-			// récuperation de ses informations 
-			$surname 	= addslashes($_SESSION['PRENOM']);
-			$name 		= addslashes($_SESSION['NOM']);
-			
-			// Zone de saisie
-			echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
-				disabled />';
-		}
-	}
-	else{
-		// Zone de saisi en temps que visiteur.
-		echo '<input type="text" name="owner" />';
+		  // On vérifie si la personne qui regarde est le créateur.
+		  if($result[6] == $_SESSION['USER_ID']){
+		   
+		  }
+		  else{
+		   // récuperation de ses informations 
+		   $surname  = addslashes($_SESSION['PRENOM']);
+		   $name   = addslashes($_SESSION['NOM']);
+		   
+		   // Zone de saisie
+		   echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
+			disabled />';
+		  }
 	}
 	
 	// Fin du document
 	echo '
-		<button name="participate" type="submit" class="btn-success">Participer
+		<br/>
+		<button name="participate" type="submit" class="btn btn-success">Participer
 		</button>
-		 </form>'
+		</form></div></div><br/>'
 ?>
-
