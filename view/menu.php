@@ -12,7 +12,7 @@ if(!isset($_REQUEST['uc'])){
 			        <span class="icon-bar"> </span>
 			        <span class="icon-bar"> </span>                        
 			      </button>
-			      <a class="navbar-brand">Menu :</a>
+			      <a class="navbar-brand" href="index.php?uc=home">Menu :</a>
 			    </div>
 			    <div class="navbar-collapse collapse" id="myNavbar">
 			      <ul class="nav navbar-nav">
