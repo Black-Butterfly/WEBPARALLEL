@@ -63,14 +63,28 @@
 						// Création de l'url
 						$iduser = addslashes($_SESSION['USER_ID']);
 						
-						$url = 
-						"http://localhost/finalreunion2/index.php?uc=meeting";
+						$geturl = $_SERVER['REQUEST_URI'];
+						
+						$explode = explode('/', $geturl);
+						
+						$url = "http://localhost/";
+						
+						foreach($explode as $path){
+							if ($path == 'control'){
+								break;
+							}
+							$url = $url.$path;
+						}
+						
+						$url = $url."/index.php?";
 							
 						$info = $meeting->createURL($idmeet, $iduser);
 						$tobuild = array($info[0], $info[1],$info[2]);
 						
-						$final = $url .'&' . http_build_query($tobuild);
+						$final = $url . 'uc=meeting' .'&' . 
+							http_build_query($tobuild);
 						
+						var_dump($final);
 						// redirection sur le meeting
 						header("Location: " . $final);
 					}
