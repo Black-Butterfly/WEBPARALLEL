@@ -204,12 +204,13 @@
 			disabled />';
 		  }
 	}else{
-		 echo '<input type="text" name="owner" placeholder="NOM PRENOM"/>';
+		 echo '<br/>  Nom et prenom du participant : 
+		 <input type="text" name="owner" placeholder="NOM PRENOM"/>';
 	}
 	
 	// Fin du document
 	echo '
-		<br/>
+		<br/><br/>
 		<button name="participate" type="submit" class="btn btn-success">Participer
 		</button>
 		</form></div></div><br/>'
