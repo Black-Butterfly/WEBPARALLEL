@@ -200,18 +200,21 @@
 		   $name   = addslashes($_SESSION['NOM']);
 		   
 		   // Zone de saisie
-		   echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
-			disabled />';
+		   echo '<br/>  Nom et prenom du participant : 
+			 <input type="text" name="owner" value="'.$name.' '.$surname.'" 
+			 readonly/>
+			 <br/><br />
+			 <button name="participate" type="submit" class="btn btn-success">
+			 Participer</button>';
 		  }
 	}else{
 		 echo '<br/>  Nom et prenom du participant : 
-		 <input type="text" name="owner" placeholder="NOM PRENOM"/>';
+			   <input type="text" name="owner" placeholder="NOM PRENOM"/>
+			   <br/><br />
+			   <button name="participate" type="submit" class="btn btn-success">
+			   Participer</button>';
 	}
 	
 	// Fin du document
-	echo '
-		<br/><br/>
-		<button name="participate" type="submit" class="btn btn-success">Participer
-		</button>
-		</form></div></div><br/>'
+	echo '</form></div></div><br/>'
 ?>
