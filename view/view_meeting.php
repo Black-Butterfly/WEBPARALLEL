@@ -135,6 +135,12 @@
 	// Recupération de toutes les dates associé au meeting
 	$date = $meeting->getMeetingDate($result[0]);
 	
+	// NORMALEMENT ON NE TOMBE JAMAIS DANS CE CAS MAIS BON ...
+	if (sizeof($date) == 0){
+		echo 'Aucune date est heures n\'est disponible pour ce meeting';
+		exit();
+	}
+	
 	//Pour être sûr que la personne n'as pas changé d'année :
 	$year1 = date("Y", strtotime($date[0][1]));
 	

@@ -26,16 +26,16 @@
 						
 		//On part sur localhost
 		$url = 'http://localhost/';
-							
-		// On rajoute tous ce qu'il y a avant index.php?uc=viewMeetings
+									
+		// On rajoute tous ce qu'il y a avant index.php?uc=meetings
 		// Sinon erreur dans le build de l'address ! 
 		foreach($explode as $path){
-			if ($path == 'index.php?uc=viewMeetings'){
+			if ($path == 'index.php?uc=meetings'){
 				break;
 			}
 			$url = $url.$path;
 		}
-				
+			
 		// On rajoute le fait que l'on part de l'index
 		$url = $url.'/'."index.php?uc=meeting";
 		
@@ -119,10 +119,5 @@
 	}else{
 		showMeEverything($meetings);
 	}
-
-	//var_dump($meetings);
-	
-	echo ('DAFUQ');
-	
-	//header("Location: index.php?uc=viewMeetings");
+	echo "<br />";
 ?>
