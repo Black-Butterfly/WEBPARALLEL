@@ -114,20 +114,20 @@
 				echo '</div></div>';
 			}else{			
 				echo '
-				<div class="col-md-2">
+				<div class="col-md-42">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 style="text-align: center;" class="panel-title">'.$timebegin." - "
 							.$timeend.'</h3>
-						</div>';
-				echo '<div class="panel-body-checkbox2">
-							 <input type="checkbox" name="choice[]" 
-								value="'.$value.'" />
 						</div>
-					</div>
-				</div>
-				</div>';
-				afficheFollow($followers);
+						<div class="panel-body-checkbox2">
+							<input type="checkbox" name="choice[]" 
+								value="'.$value.'" />';
+							
+				echo '</div>'
+						.afficheFollow($followers).'
+						</div>
+							</div>';
 			}
 		}
 		echo '		</tbody>
