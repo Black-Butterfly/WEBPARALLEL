@@ -11,11 +11,13 @@
 *
 **/
 
+// Pour accéder à la base de donnée
 include ("../model/MMeeting.class.php");
 
+// Ne surtout pas oublier
 session_start();
 
-
+// On regarde si on ressoit bien les informations du formulaire
 if (isset($_POST['participate'])){
 	
 	//Verification sur le fait que la personne ait mis un nom et choisi un 
@@ -41,20 +43,20 @@ if (isset($_POST['participate'])){
 				is_numeric($info[1]) && 
 				is_numeric($info[2])){
 				
-					$meeting = new MMeeting();
-					var_dump($info);
-					echo($info[0]);
-					$add = $meeting->addFolower($info[0], 
-												$info[1], 
-												$info[2], 
-												$own);
+				$meeting = new MMeeting();
 					
-					header("Location: ../index.php?uc=home");
-				}
-			
+				// Ajout du fait que la personne est disponible 
+				$add = $meeting->addFolower($info[0], 
+											$info[1], 
+											$info[2], 
+											$own);
+					
+				// On le renvoi sur home
+				header("Location: ../index.php?uc=home");
+			}	
 		}
-	
 	}else{
+		// Si l'utilisateur n'as pas rempli un champs
 		echo('Une erreur est survenue durant l\'ajout de votre participation. 
 			Etes-vous certain de bien avoir renseigner le champ prénom ainsi
 			que d\'avoir choisi un créneau horraire ? 
@@ -62,6 +64,7 @@ if (isset($_POST['participate'])){
 			meetings </a>"');
 	}// Champs invalide 
 }else{
+	// ON EST PAS SENSE ENTRER ICI
 	echo ("FATAL ERROR dafuq");
 }
 

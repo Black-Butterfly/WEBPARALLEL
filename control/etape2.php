@@ -96,7 +96,10 @@
 						$info = $meeting->createURL($idmeet, $iduser);
 						
 						// On fait en sorte de n'avoir que les valeurs
-						$tobuild = array($info[0], $info[1],$info[2]);
+						// On fait attention à ce que l'on affiche
+						$tobuild = array(  htmlentities($info[0])
+										 , htmlentities($info[1])
+										 , htmlentities($info[2]));
 						
 						// FINALEMENT on build l'url
 						$final = $url . 'uc=meeting' .'&' . 

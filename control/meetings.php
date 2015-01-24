@@ -1,5 +1,16 @@
 <?php
 
+/**
+*	@file   meetings.php
+* 
+*	@author Black Butterfly
+* 
+*	@date   24/01/2015 
+*
+*	@brief  Ici se trouve le controleur générant la view des meetings
+*
+**/
+
 	// Besoin des fonctions ayant accès à la base
 	include ("model/MMeeting.class.php");
 	
@@ -53,7 +64,6 @@
 	/*
 	*
 	* Fonction d'affichage quand l'utilisateur est connécté
-	* TODO : Add bouton pour imprim en pdf ?? ou le faire sur view_meeting
 	* TODO : Add bouton pour sup le meeting
 	*
 	*/
@@ -84,8 +94,9 @@
 		
 		// Si l'utilisateur n'as rien créer
 		if (!$content)
-			echo "Vous n'avez pas encore créer de reunions <br />";
+			echo "Vous n'avez pas encore cr&eacute;er de reunions <br />";
 		
+		// Fin de génération html des réunions créer des utilisateurs
 		echo '</div></div></div></div>';
 		echo '<div class="row">
 			<div class="col-sm-4">
@@ -126,9 +137,11 @@
 					<div class="panel-body">';
 		foreach($all as $rdv){
 			// On reconstruit l'url du meeting
-			$url = buildUrl($rdv[0], $rdv[1], $rdv[2]);
+			$url = buildUrl(addslashes($rdv[0]), 
+							addslashes($rdv[1]),
+							addslashes($rdv[2]));
 			// On affiche le meeting
-			echo '<a href="'.$url.'">'.$rdv[0].' </a><br />';
+			echo '<a href="'.$url.'">'.addslashes($rdv[0]).' </a><br />';
 		}
 		echo '		</div>
 				</div>
