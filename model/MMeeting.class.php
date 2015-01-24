@@ -20,7 +20,7 @@ class MMeeting{
     public function __destruct () {}
 	
 	/*Ajout d'un meeting
-		$description peut être null. $user = id_user (via $_SESSION['id_user'])
+		$description peut ï¿½tre null. $user = id_user (via $_SESSION['id_user'])
 	*/
     public function addMeeting ($subject, $description, $locate, $duration, $mn, 
 		$user)
@@ -78,7 +78,7 @@ class MMeeting{
 	}
 	
 	/*
-		Ajout une heure de départ à un meeting
+		Ajout une heure de dï¿½part ï¿½ un meeting
 		
 		$day = format 0000-00-00  
 		$meeting = id_meeting obtenue via getMeetingId()
@@ -306,4 +306,47 @@ class MMeeting{
 			die("exception");
 		}	
     }
+	
+	public function addMeetingByIdUser($uid){
+		try{
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT SUBJECT, DESCRIPTION, LOCATION, DURATION, DURATION2
+					FROM MEETING WHERE ID_USER = ?;";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->bindParam(1, $uid,	PDO::PARAM_INT);
+			$reqprep->execute();
+			$result = $reqprep->fetchAll();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}	
+		return $result;
+	}
+	
+	public function addAllMeeting(){
+		try{
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "SELECT SUBJECT, DESCRIPTION, LOCATION, DURATION, DURATION2
+					FROM MEETING;";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->execute();
+			$result = $reqprep->fetchAll();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception : ". $e->getMessage());
+		}	
+		return $result;
+	}
 }
