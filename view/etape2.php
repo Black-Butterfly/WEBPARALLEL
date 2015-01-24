@@ -8,16 +8,18 @@
 	}
 	
 	echo '	<form method="post" action="control/etape2.php" autocomplete="off">
-			<h3>
-				<div class="label label-primary"><label for="date">*Date : </label></div><input type="date" name="date" />
-			</h3>
+			<h1>
+				<div class="label label-primary"><label for="date">*Date : 
+				</label></div>
+			</h1>
+			<input type="date" name="date" />Format : (YYYY-MM-DD)
 			<br />
 			<div class="panel panel-info">
-				<div class="panel-heading">
-				  <h3 class="panel-title">Choisissez un créneau horaire :</h3>
-				</div>
-				<div class="panel-body">
-					<div class="row">
+            <div class="panel-heading">
+              <h3 class="panel-title">Choisissez un créneau horaire :</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
 	';
 	
 	$steph 	= addslashes($_SESSION['MEET_H']);

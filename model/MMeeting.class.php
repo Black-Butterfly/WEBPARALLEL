@@ -282,4 +282,28 @@ class MMeeting{
 		}	
 		return $result;
 	}
+	
+	public function addFolower ($idmeeting, $iddate, $idhour, $owner)
+    {	
+		try{
+			// connexion
+			$cnx = new db();
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			// preparer la requete
+			$req = "INSERT INTO AVAILABLE (ID_MEETING, ID_DATE, ID_HOURS, OWNER
+				) VALUES (?, ?, ?, ?)";
+			$reqprep = $cnx->prepare($req);
+			$reqprep->bindParam(1, $idmeeting, 	 PDO::PARAM_INT);
+			$reqprep->bindParam(2, $iddate,		 PDO::PARAM_INT);
+			$reqprep->bindParam(3, $idhour, 	 PDO::PARAM_INT);
+			$reqprep->bindParam(4, $owner,	 	 PDO::PARAM_STR);
+			$reqprep->execute();
+			
+			// deconnexion
+			$cnx = null;
+		}catch (PDOException $e){
+			die("exception");
+		}	
+    }
 }

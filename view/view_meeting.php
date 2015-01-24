@@ -70,8 +70,8 @@
 							.$timeend.'</h3>
 						</div>
 						<div class="panel-body-checkbox">
-							<input type="checkbox" name="choice[]" value="
-							'.$value.'" />
+							<input type="checkbox" name="choice[]" 
+							value="'.$value.'" />
 						</div>
 					</div>
 				</div>'
@@ -100,7 +100,7 @@
 			Lieux : '.$result[3].'
 			<br />
 			<form action="control/participate.php" autocomplete="off" 
-			methode="POST">';
+			method="post">';
 			
 			
 	
@@ -156,13 +156,19 @@
 	
 	// Si la personne est connécté, son nom sera envoyé d'office
 	if(isset($_SESSION['PRENOM'])){
-		// récuperation de ses informations 
-		$surname 	= addslashes($_SESSION['PRENOM']);
-		$name 		= addslashes($_SESSION['NOM']);
-		
-		// Zone de saisie
-		echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
-			disabled />';
+		// On vérifie si la personne qui regarde est le créateur.
+		if($result[6] == $_SESSION['USER_ID']){
+			
+		}
+		else{
+			// récuperation de ses informations 
+			$surname 	= addslashes($_SESSION['PRENOM']);
+			$name 		= addslashes($_SESSION['NOM']);
+			
+			// Zone de saisie
+			echo '<input type="text" name="owner" value="'.$name.' '.$surname.'" 
+				disabled />';
+		}
 	}
 	else{
 		// Zone de saisi en temps que visiteur.
@@ -175,3 +181,4 @@
 		</button>
 		 </form>'
 ?>
+
