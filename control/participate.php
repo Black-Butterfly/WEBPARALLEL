@@ -20,7 +20,9 @@ if (isset($_POST['participate'])){
 	
 	//Verification sur le fait que la personne ait mis un nom et choisi un 
 	//créneau
-	if(	$_POST['owner'] != null &&
+	if(	isset($_POST['owner']) 	&&
+		isset($_POST['choice']) &&
+		$_POST['owner'] != null &&
 		sizeof($_POST['choice']) != 0){
 		
 		// Protéction contre xss
