@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
 *	@file   MMeeting.class.php
 * 
@@ -10,6 +10,7 @@
 *
 **/
 
+// Pour pouvoir se connécter
 require_once(dirname(__FILE__) . "/../config.inc.php");
 
 class MMeeting{
@@ -19,8 +20,22 @@ class MMeeting{
 
     public function __destruct () {}
 	
-	/*Ajout d'un meeting
-		$description peut �tre null. $user = id_user (via $_SESSION['id_user'])
+	/*
+	*
+	*	@function 		addMeeting
+	*
+	*	@description	Cette fonction permet de rajouter un meeting dans la 
+	*					base
+	*
+	*	@Param 			$subject 		( Sujet du meeting )
+	*	@Param 			$description	( description du meeting )
+	*	@Param 			$locate 		( lieux du meeting )
+	*	@Param 			$duration		( Temps du meeting (h) )
+	*	@Param 			$mn				( Temps du meeting (mn) )
+	*	@Param 			$user			( Id de l'utilisateur )
+	*
+	*	@return			Rien
+	*
 	*/
     public function addMeeting ($subject, $description, $locate, $duration, $mn, 
 		$user)
@@ -35,12 +50,15 @@ class MMeeting{
 			$req = "INSERT INTO MEETING (SUBJECT, DESCRIPTION, LOCATION, 
 				DURATION, DURATION2, ID_USER) VALUES (?, ?, ?, ?, ?, ?)";
 			$reqprep = $cnx->prepare($req);
+			// On fais en sorte d'essayé de ne pas se faire avoir par une sqli
 			$reqprep->bindParam(1, $subject, 	 PDO::PARAM_STR);
 			$reqprep->bindParam(2, $description, PDO::PARAM_STR);
 			$reqprep->bindParam(3, $locate, 	 PDO::PARAM_STR);
 			$reqprep->bindParam(4, $duration, 	 PDO::PARAM_INT);
 			$reqprep->bindParam(5, $mn, 		 PDO::PARAM_INT);
 			$reqprep->bindParam(6, $user, 		 PDO::PARAM_INT);
+			
+			// execution de la requete
 			$reqprep->execute();
 			
 			// deconnexion
@@ -48,13 +66,20 @@ class MMeeting{
 		}catch (PDOException $e){
 			die("exception");
 		}	
-    }
+    } // addMeeting
+	
 	
 	/*
-		Ajout d'une date d'un meeting
-		
-		$day = format 0000-00-00  
-		$meeting = id_meeting obtenue via getMeetingId()
+	*
+	*	@function 		addDayToMeeting
+	*
+	*	@description	Cette fonction permet de rajouter à un meeting une date 
+	*
+	*	@Param 			$date 			( date au format YYYY-MM-DD )
+	*	@Param 			$idmeet			( Id du meeting )
+	*
+	*	@return			Rien
+	*
 	*/
 	public function addDayToMeeting($date, $idmeet)
 	{
@@ -66,6 +91,8 @@ class MMeeting{
 				// preparer la requete
 				$req = "INSERT INTO DATE (DDAY, ID_MEETING) VALUES (?, ?)";
 				$reqprep = $cnx->prepare($req);
+				
+				// Test de protéction contre sqli
 				$reqprep->bindParam(1, $date, 	PDO::PARAM_STR);
 				$reqprep->bindParam(2, $idmeet, PDO::PARAM_STR);
 				$reqprep->execute();
@@ -75,13 +102,22 @@ class MMeeting{
 		}catch (PDOException $e){
 			die("exception");
 		}
-	}
+	}// addDayToMeeting
 	
 	/*
-		Ajout une heure de d�part � un meeting
-		
-		$day = format 0000-00-00  
-		$meeting = id_meeting obtenue via getMeetingId()
+	*
+	*	@function 		addHours
+	*
+	*	@description	Cette fonction permet de rajouter à une date du meeting  
+	*					les heures du meeting
+	*
+	*	@Param 			$hours	 		( Heure de départ )
+	*	@Param 			$minutes		( Mn de départ )
+	*	@Param 			$idmeet 		( Id du meeting )
+	*	@Param 			$iddate			( id du jour du meeting )
+	*
+	*	@return			Rien
+	*
 	*/
 	public function addHours($hours, $minutes, $idmeet, $iddate)
 	{
@@ -94,6 +130,8 @@ class MMeeting{
 				$req = "INSERT INTO HOURS (BHOUR,BMIN, ID_MEETING, ID_DATE) 
 					VALUES (?, ?, ?, ?)";
 				$reqprep = $cnx->prepare($req);
+				
+				// Test de protéction contre sqli
 				$reqprep->bindParam(1, $hours,  PDO::PARAM_INT);
 				$reqprep->bindParam(2, $minutes,PDO::PARAM_INT);
 				$reqprep->bindParam(3, $idmeet, PDO::PARAM_INT);
@@ -105,8 +143,21 @@ class MMeeting{
 		}catch (PDOException $e){
 			die("exception");
 		}
-	}
+	}// addHours
 	
+	/*
+	*
+	*	@function 		getMeetingId
+	*
+	*	@description	Cette fonction permet de récupérer l'id d'un meeting 
+	*					via le sujet ainsi que l'utilisateur
+	*
+	*	@Param 			$subject 		( Sujet du meeting )
+	*	@Param 			$user			( id de l'utilisateur)
+	*
+	*	@return			Id du meeting
+	*
+	*/
 	public function getMeetingId($subject, $user)
 	{
 		try{
@@ -118,6 +169,8 @@ class MMeeting{
 			$req = "SELECT ID_MEETING FROM MEETING WHERE SUBJECT = ? AND ID_USER
 				= ?;";
 			$reqprep = $cnx->prepare($req);
+			
+			// Protection sqli
 			$reqprep->bindParam(1, $subject, 	PDO::PARAM_STR);
 			$reqprep->bindParam(2, $user, 		PDO::PARAM_INT);
 			$reqprep->execute();
@@ -131,6 +184,19 @@ class MMeeting{
 		return $result;
 	}
 	
+	/*
+	*
+	*	@function 		getDateId
+	*
+	*	@description	Permet de récupérer l'id d'un jour particulier du 
+	* 					meeting
+	*
+	*	@Param 			$date	 		( Jour que l'on veut )
+	*	@Param 			$idmeet			( id du meeting )
+	*
+	*	@return			Id de la date
+	*
+	*/
 	public function getDateId($date, $idmeet)
 	{
 		try{
@@ -153,8 +219,11 @@ class MMeeting{
 			die("exception : ". $e->getMessage());
 		}	
 		return $result;
-	}
+	}// getDateId
 	
+	/*
+		TODO
+	*/
 	public function createURL($idmeet, $iduser)
 	{
 		try{
