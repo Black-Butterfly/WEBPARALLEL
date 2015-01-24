@@ -39,9 +39,9 @@
 								  </table>
 								</div>
 							</div>
-						</form>
 						<button name="valid" type="submit" class="btn btn-success">Valider 
 								Modification</button>
+						</form>
 						<br/>
 						<br/>
 						</form>
