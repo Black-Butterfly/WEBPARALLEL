@@ -330,18 +330,17 @@ class MMeeting{
 		return $result;
 	}
 	
-	
-	/*public function addMeetingByIdUser($uid){
+	public function getAllFolowers($id)
+	{
 		try{
 			// connexion
 			$cnx = new db();
 			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// preparer la requete
-			$req = "SELECT SUBJECT, DESCRIPTION, LOCATION, DURATION, DURATION2
-					FROM MEETING WHERE ID_USER = ?;";
+			$req = "SELECT * FROM AVAILABLE WHERE ID_MEETING = ?;";
 			$reqprep = $cnx->prepare($req);
-			$reqprep->bindParam(1, $uid,	PDO::PARAM_INT);
+			$reqprep->bindParam(1, $id, PDO::PARAM_INT);
 			$reqprep->execute();
 			$result = $reqprep->fetchAll();
 			
@@ -352,25 +351,4 @@ class MMeeting{
 		}	
 		return $result;
 	}
-	
-	public function addAllMeeting(){
-		try{
-			// connexion
-			$cnx = new db();
-			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			
-			// preparer la requete
-			$req = "SELECT SUBJECT, DESCRIPTION, LOCATION, DURATION, DURATION2
-					FROM MEETING;";
-			$reqprep = $cnx->prepare($req);
-			$reqprep->execute();
-			$result = $reqprep->fetchAll();
-			
-			// deconnexion
-			$cnx = null;
-		}catch (PDOException $e){
-			die("exception : ". $e->getMessage());
-		}	
-		return $result;
-	}*/
 }

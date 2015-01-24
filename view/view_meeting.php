@@ -32,6 +32,28 @@
 	}
 	
 	
+	// Return les noms des personnes ayant voté pour le créneau horraire
+	// Ainsi que le nombre de participant
+	function nameFollowers($follow, $idday, $idhour){
+		$res = array();
+		$cpt = 0;
+		foreach ($follow as $owner){
+			if ($owner[1] == $idday && $owner[2] == $idhour){
+				array_push($res, $owner[3]);
+				$cpt++;
+			}
+		}
+		array_push($res, $cpt);
+		return $res;
+	}
+	
+	// Affiche les personnes participant à la réunion
+	function afficheFolow($followers){
+		foreach($followers as $own){
+			echo 'Pouvant participer : '.$own.'<br />';
+		}
+	}
+	
 	// Affiche de l'année sélectionné
 	function yearView($date){
 		echo '<div class="rowmeetings">
@@ -59,7 +81,7 @@
 	
 	// Génère les heures de façons à ce qu'elles puissent être séléctionné.
 	// Les heures reçues sont toujours en rapport avec la date
-	function generateHours($hours, $dure, $idday){
+	function generateHours($hours, $dure, $idday, $follow, $idmeeting){
 		echo '<div class="col5-md-12">
 				<table class="table">
 					<tbody>';
@@ -71,6 +93,8 @@
 			$timeend 	= ($time[1]+$dure[4]).':'.($time[2]+$dure[5]);
 			// Pas sécure mais je ne vois pas trop comment faire autrement :/
 			$value 		= $dure[0].'&'.$idday.'&'.$time[0];
+			
+			$followers = nameFollowers($follow, $idday, $time[0]);
 		
 			// Génération du code html pour les heures
 			echo '
@@ -79,19 +103,25 @@
 						<div class="panel-heading">
 							<h3 style="text-align: center;" class="panel-title">'.$timebegin." - "
 							.$timeend.'</h3>
-						</div>
-						<div class="panel-body-checkbox2">
+						</div>';
+			// Si c'est le meeting de l'utilisateur
+			if($idmeeting == $_SESSION['USER_ID']){
+				echo '</div></div>';
+				afficheFolow($followers);
+			}else{			
+				echo '<div class="panel-body-checkbox2">
 							 <input type="checkbox" name="choice[]" 
 								value="'.$value.'" />
 						</div>
 					</div>
 				</div>';
+				afficheFolow($followers);
+			}
 		}
 		echo '		</tbody>
 				</table>
 			</div>';
 	}
-	
 	
 	/* 
 	*
@@ -163,6 +193,7 @@
 	foreach($date as $day){
 		// Récupération des heures via la date
 		$hours = $meeting->getDateHours($day[0]);
+		$follow = $meeting->getAllFolowers($result[0]);
 		
 		$year2  = date("Y", strtotime($day[1]));
 		$month2 = date("m", strtotime($day[1]));
@@ -184,7 +215,7 @@
 		dayView($day[1]);
 		
 		// Affichage de toutes les heures relatif au jour
-		generateHours($hours, $result, $day[0]);
+		generateHours($hours, $result, $day[0], $follow, $result[6]);
 	} 
 	
 	
@@ -192,7 +223,12 @@
 	if(isset($_SESSION['PRENOM'])){
 		  // On vérifie si la personne qui regarde est le créateur.
 		  if($result[6] == $_SESSION['USER_ID']){
-		   
+			echo '</form>
+				 <form action="TOPDF" autocomplete="off" method="POST">
+				 <input type="hidden" value="'.$result[0].'">
+				 <button name="participate" type="submit" 
+				 class="btn btn-success"> Export to pdf</button> ';
+			
 		  }
 		  else{
 		   // récuperation de ses informations 
