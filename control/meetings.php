@@ -58,8 +58,13 @@
 	*
 	*/
 	function toShowWhenConnected($id, $all){
-		echo '<h3> Vos reunions : </h3>
-			  <br />';
+		echo '<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Vos reunions :</h3>
+					</div>
+					<div class="panel-body">';
 		
 		// Vas nous permettre de savoir si la personne à fait une réunion
 		$content = false;
@@ -80,7 +85,17 @@
 		// Si l'utilisateur n'as rien créer
 		if (!$content)
 			echo "Vous n'avez pas encore créer de reunions <br />";
-			
+		
+		echo '</div></div></div></div>';
+		echo '<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Reunions des autres utilisateurs :
+						</h3>
+					</div>
+					<div class="panel-body">';
 		// Finalement on affiche les autres
 		foreach($all as $rdv){
 			//Si la reunion n'as pas été créer par l'utilisateur
@@ -91,6 +106,7 @@
 				echo '<a href="'.$url.'">'.$rdv[0].' </a><br />';
 			}
 		}
+		echo '</div></div></div></div>';
 	} // Function toShowWhenConnected($id, $all)
 	
 	
@@ -101,13 +117,23 @@
 	*
 	*/
 	function showMeEverything($all){
-		echo '<h3>Liste des meetings</h3> <br /> ';
+		echo '<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h2 class="panel-title">Liste des meetings</h2>
+					</div>
+					<div class="panel-body">';
 		foreach($all as $rdv){
 			// On reconstruit l'url du meeting
 			$url = buildUrl($rdv[0], $rdv[1], $rdv[2]);
 			// On affiche le meeting
 			echo '<a href="'.$url.'">'.$rdv[0].' </a><br />';
 		}
+		echo '		</div>
+				</div>
+			</div>
+		</div>';
 	}
 	
 	
